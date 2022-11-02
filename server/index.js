@@ -4,8 +4,8 @@ const app = express();
 
 const {
 
-    addGanttEvent
-
+    addGanttEvent,
+    getGanttEvents
 } = require("./handlers")
 
 
@@ -21,6 +21,10 @@ app.get("/", (req, res) => {
 // this endpoint is used to add an event to the Gantt Chart
 
 app.post("/api/add-gantt-event", addGanttEvent)
+
+//this endpoint is used to retrieve all the Gantt Events from the database
+
+app.get("/api/ganttEvents", getGanttEvents)
 
 
 .get("*", (req, res) => {

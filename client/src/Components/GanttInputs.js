@@ -63,8 +63,8 @@ const GanttInputs = ()=> {
     };
 
     let ganttArray = [];
-
-    ganttArray.push(dependencyName, taskName, start, finish, scale, percentage, dependency);
+ 
+   ganttArray.push(dependencyName, taskName, start, finish, scale, percentage, dependency);
 console.log(ganttArray)
 
     const handleSubmit = ((e) =>{
