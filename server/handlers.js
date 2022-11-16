@@ -43,7 +43,7 @@ const addGanttEvent = async (request, response) => {
 
 // this function retrieves all the Gantt chart events from the database
 
-const getGanttEvents = async (request, reponse) => {
+const getGanttEvents = async (request, response) => {
 
     const client = new MongoClient(MONGO_URI, options);
 

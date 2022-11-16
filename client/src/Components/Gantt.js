@@ -1,15 +1,9 @@
-import { useEffect, useState } from "react";
+
 import {Chart} from "react-google-charts";
 import styled from "styled-components";
 
-const Gantt = () => {
+const Gantt = ({rows}) => {
 
-  const [rows, setRows] = useState(null);
-
-  // function daysToMilliseconds(days) {
-  //   return days * 24 * 60 * 60 * 1000;
-  // }
-  
   const columns = [
     { type: "string", label: "Task ID" },
     { type: "string", label: "Task Name" },
@@ -19,88 +13,30 @@ const Gantt = () => {
     { type: "number", label: "Percent Complete" },
     { type: "string", label: "Dependencies" },
   ];
-  // const rows = [
-  //   [
-  //     "Research",
-  //     "Find sources",
-  //     new Date(2015, 0, 4),
-  //     new Date(2015, 0, 20),
-  //     null,
-  //     100,
-  //     null,
-  //   ],
-  //   [
-  //     "Write",
-  //     "Write paper",
-  //     new Date(2015, 0, 9),
-  //     new Date(2015, 10, 9),
-  //     null,
-  //     25,
-  //     null,
-  //   ],
-  //   [
-  //     "Cite",
-  //     "Create bibliography",
-  //     new Date(2015, 0, 7),
-  //     new Date(2015, 10, 7),
-  //     daysToMilliseconds(7),
-  //     20,
-  //     "Research",
-  //   ],
-  //   [
-  //     null,
-  //     "Hand in paper",
-  //     null,
-  //     new Date(2016, 0, 10),
-  //     daysToMilliseconds(1),
-  //     0,
-  //     "Cite,Write",
-  //   ],
-  //   [
-  //     "Outline",
-  //     "Outline paper",
-  //     null,
-  //     new Date(2015, 0, 6),
-  //     daysToMilliseconds(1),
-  //     100,
-  //     "Research",
-  //   ],
-  // ];
 
-    // useEffect(()=>{
-    //   fetchGanttEvents();
-    // },[]);
+//isolate array of ganttEvents from object Ids given in MongoDB
 
-    // const fetchGanttEvents = async () => {
-    //   try {
-    //         const data = await fetch('/api/get-gantt-events');
-    //         const json = await data.json();
-    //         console.log(data)
-    //         setRows(json.data);
-    //   }
-    //   catch (error){
-    //     console.log("Error Message Caught", error);
-    //   }
-    // }
-    useEffect(() =>{
+  const ganttEventIsolation = () => {
 
-      fetch("/api/ganttEvents")
-  
-      .then((response) => response.json())
-  
-      .then((data) => {
-          if(data.status === 200){
-         setRows(data)
-         console.log(data)
-          }
-      })
-      .catch((error) =>{
-         
-      })
-  },[]);
+    const formattedRows = rows.map(row => row.ganttEvent);     
+
+      return formattedRows;
     
+  };
 
-    const data = [columns, ...rows];
+  
+// format the dates for recognition by google charts
+
+  const rowFormatting = (info) => {
+
+    const newRows = info.map(r => [r[0], r[1], (new Date(r[2])), (new Date(r[3])), null, null, null]);
+    
+      return newRows
+};
+      const rowData = ganttEventIsolation();
+      let newRowData = rowFormatting(rowData);
+
+    const data = [columns, ...newRowData];
 
     const options = {
     height: 400,
@@ -115,8 +51,8 @@ const Gantt = () => {
         chartType="Gantt"
         data={data}
         options={options}
-        width={"100%"}
-        height={"400px"}
+        width={"50vw"}
+        height={"100%"}
       />
       </Wrapper>
     );

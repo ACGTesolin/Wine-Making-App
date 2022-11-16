@@ -15,7 +15,7 @@ const GanttInputs = ()=> {
     const handleDependencyNameChange = (value1) =>{
         
         if(value1.length > 0){
-            setDependencyName(1)
+            setDependencyName(value1)
         }
         return null;
      };
@@ -31,8 +31,8 @@ const GanttInputs = ()=> {
     const handleStartChange = (value3) =>{
         
         if(value3.length > 0){
-            let startDate = new Date(value3)
-                setStart(startDate)
+            
+                setStart(new Date(value3))
         }
         return null;
     };
@@ -40,8 +40,8 @@ const GanttInputs = ()=> {
     const handleFinishChange = (value4) =>{
 
         if(value4.length > 0){
-            let finishDate = new Date(value4)
-                setFinish(finishDate)
+          
+                setFinish( new Date(value4))
         }
         return null;
     };
@@ -65,12 +65,14 @@ const GanttInputs = ()=> {
     let ganttArray = [];
  
    ganttArray.push(dependencyName, taskName, start, finish, scale, percentage, dependency);
+
 console.log(ganttArray)
 
     const handleSubmit = ((e) =>{
 
         e.preventDefault();
-
+        window.location.reload()
+        
        
         fetch("/api/add-gantt-event", {
             method: "POST",
@@ -82,8 +84,9 @@ console.log(ganttArray)
         })  
         .then((response) => response.json())
 
-        // .then((data) => {
-        // })
+         .then((data) => {
+             
+         })
 
         .catch((error) =>{
             
@@ -97,13 +100,13 @@ console.log(ganttArray)
         <Wrapper>
             <form onSubmit={handleSubmit}>
                 <InputWrapper>
-                    <DependencyName
+                    {/* <DependencyName
                     type="text"
                     id = "dependencyName"
                     name="dependencyName"
                     placeholder="Dependency Name"
                     onChange={(ev)=>handleDependencyNameChange(ev.target.value)}
-                    ></DependencyName>
+                    ></DependencyName> */}
 
                     <TaskName
                     type="text"
@@ -129,7 +132,7 @@ console.log(ganttArray)
                     onChange={(ev)=>handleFinishChange(ev.target.value)}
                     ></Finish>
 
-                    <Scale
+                    {/* <Scale
                     type="number"
                     id="scale"
                     placeholder="Scale"
@@ -149,7 +152,7 @@ console.log(ganttArray)
                     name="dependency"
                     placeholder="Dependency"
                     onChange={(ev)=>handleDependencyChange(ev.target.value)}                 
-                    ></Dependency>
+                    ></Dependency> */}
 
                     <Submit type="submit" >Submit</Submit>
                 </InputWrapper>
